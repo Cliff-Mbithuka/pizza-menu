@@ -63,22 +63,51 @@ function Header() {
 
   return (
     <header className="header footer">
-      <h1 style={style} >
-        Fast React Pizza Co.
-      </h1>
+      <h1 style={style}>Fast React Pizza Co.</h1>
     </header>
   );
 }
 
 function Menu() {
+  const pizzas = pizzaData;
+  const numPizzas = pizzas.length;
+ 
+
   return (
     <main className="menu">
       {" "}
       <h2>Our Menu</h2>
-      <Pizza />
-      <Pizza />
-      <Pizza />
+
+      {
+    numPizzas > 0 && (
+      <ul className="pizzas">
+        {pizzas.map((pizza) => (
+          <Pizza pizzaObj={pizza} key={pizza.name} />
+        ))}
+      </ul>
+    )
+  }
+      {/* <Pizza
+        name="Pizza Spinaci"
+        ingredients="Tomato, mozarella, spinach, and ricotta cheese"
+        photoName="pizzas/spinaci.jpg"
+        price={10}
+      /> */}
     </main>
+  );
+}
+
+function Pizza(props) {
+  return (
+    <li className="pizza">
+      <img src={props.pizzaObj.photoName} alt={props.pizzaObj.name} />
+      <div>
+        {" "}
+        <h3>{props.pizzaObj.name}</h3>
+        <p>{props.pizzaObj.ingredients}</p>
+        <span>{props.pizzaObj.price}</span>
+      </div>
+    </li>
   );
 }
 
@@ -95,17 +124,16 @@ function Footer() {
   //   alert("Sorry we are closed");
   // }
   return (
-    <footer className="footer">{new Date().toLocaleTimeString()} We are Currently Open.</footer>
-  );
-}
-
-function Pizza() {
-  return (
-    <div>
-      <img src="pizzas/spinaci.jpg" alt="Pizza spinaci" />
-      <h3>Pizza Spinaci</h3>
-      <p>Tomato, mozarella, spinach, and ricotta cheese</p>
-    </div>
+    <footer className="footer">
+      {isOpen && (
+        <div className="order">
+          <p>
+            We are open until {closeHour}:00. Come visit us or Order online.
+          </p>
+          <button className="btn">Order</button>
+        </div>
+      )}
+    </footer>
   );
 }
 
